@@ -8,11 +8,11 @@ export async function GET() {
   try {
     const response = await fetch(`${API_BASE_URL}/competitions`, {
       next: {
-        revalidate: 3600 // Cache for 1 hour
-      }
+        revalidate: 3600, // Cache for 1 hour
+      },
     })
     const data = await response.json()
-    
+
     return NextResponse.json(data, {
       headers: {
         'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
@@ -20,9 +20,6 @@ export async function GET() {
     })
   } catch (error) {
     console.error(error)
-    return NextResponse.json(
-      { error: 'Failed to fetch competitions' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to fetch competitions' }, { status: 500 })
   }
 }

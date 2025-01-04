@@ -3,12 +3,19 @@
 
 import { use } from 'react'
 import { useEffect, useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ChevronDown } from 'lucide-react'
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from '@/components/ui/table'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Button } from '@/components/ui/button'
 
@@ -30,6 +37,7 @@ interface Race {
   codex: string
   date: string
   discipline: string
+  is_training: boolean
   gender: string
   has_live_timing: boolean
   live_timing_url: string
@@ -93,7 +101,7 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
 
   return (
     <div className="container mx-auto py-8">
-      <Link href="/" className="flex items-center gap-2 text-blue-600 hover:underline mb-6">
+      <Link href="/" className="mb-6 flex items-center gap-2 text-blue-600 hover:underline">
         <ArrowLeft size={20} />
         Back to Competitions
       </Link>
@@ -130,174 +138,240 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
         </CardContent>
       </Card>
 
-      {competition.races.length > 0 && (
+      {competition.races.filter((race) => !race.is_training).length > 0 && (
         <Card className="mb-8">
           <CardHeader>
             <CardTitle>Races</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-8">
-              {competition.races.map((race) => (
-                <div key={race.race_id} className="space-y-6">
-                  <div className="border rounded-lg p-4">
-                    <h3 className="font-semibold mb-2">
-                      {race.discipline} - {race.gender}
-                    </h3>
-                    <p className="text-sm text-gray-500">Date: {new Date(race.date).toLocaleDateString()}</p>
-                    <div className="mt-2 space-y-2">
-                      {race.runs.map((run) => (
-                        <div key={run.number} className="text-sm">
-                          Run {run.number}: {run.time} - {run.status}
+              {competition.races
+                .filter((race) => !race.is_training)
+                .map((race) => (
+                  <div key={race.race_id} className="space-y-6">
+                    <div className="rounded-lg border p-4">
+                      <h3 className="mb-2 font-semibold">
+                        {race.discipline} - {race.gender}
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        Date: {new Date(race.date).toLocaleDateString()}
+                      </p>
+                      <div className="mt-2 space-y-2">
+                        {race.runs.map((run) => (
+                          <div key={run.number} className="text-sm">
+                            Run {run.number}: {run.time} - {run.status}
+                          </div>
+                        ))}
+                        {race.has_live_timing && (
+                          <a
+                            href={race.live_timing_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-2 inline-block text-sm text-blue-600 hover:underline"
+                          >
+                            View Live Timing
+                          </a>
+                        )}
+                      </div>
+                    </div>
+
+                    {race.results && race.results.length > 0 && (
+                      <>
+                        {/* Podium View */}
+                        <div className="relative h-64 rounded-lg bg-gradient-to-b from-blue-50 to-white p-4 dark:from-blue-950 dark:to-gray-900">
+                          <div
+                            className="absolute bottom-0 left-1/2 mb-2 flex w-full max-w-3xl -translate-x-1/2 transform justify-center"
+                            style={{ alignItems: 'last baseline' }}
+                          >
+                            {/* Silver - 2nd Place */}
+                            <div className="mx-4 flex flex-col items-center text-center">
+                              <div className="relative flex h-32 w-24 items-end justify-center rounded-t-lg bg-gray-200 dark:bg-gray-700">
+                                <Image
+                                  src={`https://data.fis-ski.com/general/load-competitor-picture/${race.results[1].athlete_id}.html`}
+                                  alt={race.results[1].name}
+                                  className="mb-2 h-20 w-20 rounded-full object-cover"
+                                  width={80}
+                                  height={80}
+                                />
+                                <span
+                                  className={`flag-${race.results[1].nation.toUpperCase()} absolute bottom-3 right-1 h-[21px] w-[28px] rounded shadow`}
+                                />
+                              </div>
+                              <div className="mt-2">
+                                <div className="text-sm font-semibold dark:text-gray-100">
+                                  {race.results[1].name}
+                                </div>
+                                <div className="text-xs text-gray-600 dark:text-gray-400">
+                                  {race.results[1].nation}
+                                </div>
+                                <div className="text-xs font-medium dark:text-gray-300">
+                                  {race.results[1].diff}
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Gold - 1st Place */}
+                            <div className="mx-4 -mb-4 flex flex-col items-center text-center">
+                              <div className="relative flex h-40 w-24 items-end justify-center rounded-t-lg bg-yellow-200 dark:bg-yellow-700">
+                                <Image
+                                  src={`https://data.fis-ski.com/general/load-competitor-picture/${race.results[0].athlete_id}.html`}
+                                  alt={race.results[0].name}
+                                  className="mb-2 h-20 w-20 rounded-full object-cover"
+                                  width={80}
+                                  height={80}
+                                />
+                                <span
+                                  className={`flag-${race.results[0].nation.toUpperCase()} absolute bottom-3 right-1 h-[21px] w-[28px] rounded shadow`}
+                                />
+                              </div>
+                              <div className="mt-2">
+                                <div className="text-sm font-semibold dark:text-gray-100">
+                                  {race.results[0].name}
+                                </div>
+                                <div className="text-xs text-gray-600 dark:text-gray-400">
+                                  {race.results[0].nation}
+                                </div>
+                                <div className="text-xs font-medium dark:text-gray-300">
+                                  {race.results[0].diff}
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Bronze - 3rd Place */}
+                            <div className="mx-4 -mb-8 flex flex-col items-center text-center">
+                              <div className="relative flex h-24 w-24 items-end justify-center rounded-t-lg bg-orange-200 dark:bg-orange-800">
+                                <Image
+                                  src={`https://data.fis-ski.com/general/load-competitor-picture/${race.results[2].athlete_id}.html`}
+                                  alt={race.results[2].name}
+                                  className="mb-2 h-20 w-20 rounded-full object-cover"
+                                  width={80}
+                                  height={80}
+                                />
+                                <span
+                                  className={`flag-${race.results[2].nation.toUpperCase()} absolute bottom-3 right-1 h-[21px] w-[28px] rounded shadow`}
+                                />
+                              </div>
+                              <div className="mt-2">
+                                <div className="text-sm font-semibold dark:text-gray-100">
+                                  {race.results[2].name}
+                                </div>
+                                <div className="text-xs text-gray-600 dark:text-gray-400">
+                                  {race.results[2].nation}
+                                </div>
+                                <div className="text-xs font-medium dark:text-gray-300">
+                                  {race.results[2].diff}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Full Results Table */}
+                        <Collapsible>
+                          <div className="flex items-center justify-between py-2">
+                            <h4 className="text-sm font-semibold">Full Results</h4>
+                            <CollapsibleTrigger asChild>
+                              <Button variant="ghost" size="sm">
+                                <ChevronDown className="h-4 w-4" />
+                              </Button>
+                            </CollapsibleTrigger>
+                          </div>
+                          <CollapsibleContent>
+                            <div className="overflow-x-auto">
+                              <Table>
+                                <TableHeader>
+                                  <TableRow>
+                                    <TableHead>Rank</TableHead>
+                                    <TableHead>Athlete</TableHead>
+                                    <TableHead>Nation</TableHead>
+                                    <TableHead>Run 1</TableHead>
+                                    <TableHead>Run 2</TableHead>
+                                    <TableHead>Total</TableHead>
+                                    <TableHead>Diff</TableHead>
+                                    <TableHead>Points</TableHead>
+                                  </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                  {race.results.map((result) => (
+                                    <TableRow key={result.athlete_id}>
+                                      <TableCell>{result.rank}</TableCell>
+                                      <TableCell>
+                                        <div className="flex items-center gap-2">
+                                          <Image
+                                            src={`https://data.fis-ski.com/general/load-competitor-picture/${result.athlete_id}.html`}
+                                            alt={result.name}
+                                            className="h-8 w-8 rounded-full object-cover"
+                                            width={32}
+                                            height={32}
+                                          />
+                                          <span className="dark:text-gray-100">{result.name}</span>
+                                        </div>
+                                      </TableCell>
+                                      <TableCell className="dark:text-gray-300">
+                                        <div className="flex items-center gap-2">
+                                          <span
+                                            className={`h-[18px] w-[24px] flag-${result.nation.toUpperCase()}`}
+                                          ></span>
+                                          {result.nation}
+                                        </div>
+                                      </TableCell>
+                                      <TableCell className="dark:text-gray-300">
+                                        {result.run1}
+                                      </TableCell>
+                                      <TableCell className="dark:text-gray-300">
+                                        {result.run2}
+                                      </TableCell>
+                                      <TableCell className="font-medium dark:text-gray-100">
+                                        {result.total}
+                                      </TableCell>
+                                      <TableCell className="text-gray-600 dark:text-gray-400">
+                                        {result.diff}
+                                      </TableCell>
+                                      <TableCell className="dark:text-gray-300">
+                                        {result.cup_points}
+                                      </TableCell>
+                                    </TableRow>
+                                  ))}
+                                </TableBody>
+                              </Table>
+                            </div>
+                          </CollapsibleContent>
+                        </Collapsible>
+                      </>
+                    )}
+                  </div>
+                ))}
+            </div>
+            {competition.races.filter((race) => race.is_training).length > 0 && (
+              <Collapsible className="mb-4">
+                <div className="flex items-center justify-between py-2">
+                  <h4 className="text-sm font-semibold">Trainings</h4>
+                  <CollapsibleTrigger asChild>
+                    <Button variant="ghost" size="sm">
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </CollapsibleTrigger>
+                </div>
+                <CollapsibleContent>
+                  <div className="space-y-4">
+                    {competition.races
+                      .filter((race) => race.is_training)
+                      .map((race) => (
+                        <div key={race.race_id} className="space-y-6">
+                          <div className="rounded-lg border p-4">
+                            <h3 className="mb-2 font-semibold">
+                              {race.discipline} - {race.gender}
+                            </h3>
+                            <p className="text-sm text-gray-500">
+                              Date: {new Date(race.date).toLocaleDateString()}
+                            </p>
+                          </div>
                         </div>
                       ))}
-                      {race.has_live_timing && (
-                        <a 
-                          href={race.live_timing_url} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="inline-block mt-2 text-sm text-blue-600 hover:underline"
-                        >
-                          View Live Timing
-                        </a>
-                      )}
-                    </div>
                   </div>
-
-                  {race.results && race.results.length > 0 && (
-                    <>
-                      {/* Podium View */}
-                      <div className="relative h-64 bg-gradient-to-b from-blue-50 to-white dark:from-blue-950 dark:to-gray-900 rounded-lg p-4">
-                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex justify-center w-full max-w-3xl mb-2" style={{alignItems: "last baseline"}}>
-                          {/* Silver - 2nd Place */}
-                          <div className="flex flex-col items-center mx-4 text-center">
-                            <div className="h-32 w-24 bg-gray-200 dark:bg-gray-700 rounded-t-lg flex items-end justify-center relative">
-                              <Image 
-                                src={`https://data.fis-ski.com/general/load-competitor-picture/${race.results[1].athlete_id}.html`}
-                                alt={race.results[1].name}
-                                className="w-20 h-20 object-cover rounded-full mb-2"
-                                width={80}
-                                height={80}
-                              />
-                              <span 
-                                className={`flag-${race.results[1].nation.toUpperCase()} absolute bottom-3 right-1 w-[28px] h-[21px] rounded shadow`}
-                                />
-                            </div>
-                            <div className="mt-2">
-                              <div className="font-semibold text-sm dark:text-gray-100">{race.results[1].name}</div>
-                              <div className="text-xs text-gray-600 dark:text-gray-400">{race.results[1].nation}</div>
-                              <div className="text-xs font-medium dark:text-gray-300">{race.results[1].diff}</div>
-                            </div>
-                          </div>
-
-                          {/* Gold - 1st Place */}
-                          <div className="flex flex-col items-center mx-4 text-center -mb-4">
-                            <div className="h-40 w-24 bg-yellow-200 dark:bg-yellow-700 rounded-t-lg flex items-end justify-center relative">
-                              <Image 
-                                src={`https://data.fis-ski.com/general/load-competitor-picture/${race.results[0].athlete_id}.html`}
-                                alt={race.results[0].name}
-                                className="w-20 h-20 object-cover rounded-full mb-2"
-                                width={80}
-                                height={80}
-                              />
-                              <span 
-                                className={`flag-${race.results[0].nation.toUpperCase()} absolute bottom-3 right-1 w-[28px] h-[21px] rounded shadow`}
-                              />
-                            </div>
-                            <div className="mt-2">
-                              <div className="font-semibold text-sm dark:text-gray-100">{race.results[0].name}</div>
-                              <div className="text-xs text-gray-600 dark:text-gray-400">{race.results[0].nation}</div>
-                              <div className="text-xs font-medium dark:text-gray-300">{race.results[0].diff}</div>
-                            </div>
-                          </div>
-
-                          {/* Bronze - 3rd Place */}
-                          <div className="flex flex-col items-center mx-4 text-center -mb-8">
-                            <div className="h-24 w-24 bg-orange-200 dark:bg-orange-800 rounded-t-lg flex items-end justify-center relative">
-                              <Image 
-                                src={`https://data.fis-ski.com/general/load-competitor-picture/${race.results[2].athlete_id}.html`}
-                                alt={race.results[2].name}
-                                className="w-20 h-20 object-cover rounded-full mb-2"
-                                width={80}
-                                height={80}
-                              />
-                              <span 
-                                className={`flag-${race.results[2].nation.toUpperCase()} absolute bottom-3 right-1 w-[28px] h-[21px] rounded shadow`}
-                              />
-                            </div>
-                            <div className="mt-2">
-                              <div className="font-semibold text-sm dark:text-gray-100">{race.results[2].name}</div>
-                              <div className="text-xs text-gray-600 dark:text-gray-400">{race.results[2].nation}</div>
-                              <div className="text-xs font-medium dark:text-gray-300">{race.results[2].diff}</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-
-                      {/* Full Results Table */}
-                      <Collapsible>
-                        <div className="flex items-center justify-between py-2">
-                          <h4 className="text-sm font-semibold">Full Results</h4>
-                          <CollapsibleTrigger asChild>
-                            <Button variant="ghost" size="sm">
-                              <ChevronDown className="h-4 w-4" />
-                            </Button>
-                          </CollapsibleTrigger>
-                        </div>
-                        <CollapsibleContent>
-                          <div className="overflow-x-auto">
-                            <Table>
-                              <TableHeader>
-                                <TableRow>
-                                  <TableHead>Rank</TableHead>
-                                  <TableHead>Athlete</TableHead>
-                                  <TableHead>Nation</TableHead>
-                                  <TableHead>Run 1</TableHead>
-                                  <TableHead>Run 2</TableHead>
-                                  <TableHead>Total</TableHead>
-                                  <TableHead>Diff</TableHead>
-                                  <TableHead>Points</TableHead>
-                                </TableRow>
-                              </TableHeader>
-                              <TableBody>
-                                {race.results.map((result) => (
-                                  <TableRow key={result.athlete_id}>
-                                    <TableCell>{result.rank}</TableCell>
-                                    <TableCell>
-                                      <div className="flex items-center gap-2">
-                                        <Image 
-                                          src={`https://data.fis-ski.com/general/load-competitor-picture/${result.athlete_id}.html`}
-                                          alt={result.name}
-                                          className="w-8 h-8 rounded-full object-cover"
-                                          width={32}
-                                          height={32}
-                                        />
-                                        <span className="dark:text-gray-100">{result.name}</span>
-                                      </div>
-                                    </TableCell>
-                                    <TableCell className="dark:text-gray-300">
-                                        <div className="flex items-center gap-2">
-                                            <span className={`w-[24px] h-[18px] flag-${result.nation.toUpperCase()}`}></span>
-                                            {result.nation}
-                                        </div>
-                                    </TableCell>
-                                    <TableCell className="dark:text-gray-300">{result.run1}</TableCell>
-                                    <TableCell className="dark:text-gray-300">{result.run2}</TableCell>
-                                    <TableCell className="font-medium dark:text-gray-100">{result.total}</TableCell>
-                                    <TableCell className="text-gray-600 dark:text-gray-400">{result.diff}</TableCell>
-                                    <TableCell className="dark:text-gray-300">{result.cup_points}</TableCell>
-                                  </TableRow>
-                                ))}
-                              </TableBody>
-                            </Table>
-                          </div>
-                        </CollapsibleContent>
-                      </Collapsible>
-                    </>
-                  )}
-                </div>
-              ))}
-            </div>
+                </CollapsibleContent>
+              </Collapsible>
+            )}
           </CardContent>
         </Card>
       )}
@@ -316,9 +390,9 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
               </div>
               <CollapsibleContent>
                 <CardContent className="pt-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {competition.broadcasters.map((broadcaster) => (
-                      <div key={broadcaster.name} className="border rounded-lg p-4">
+                      <div key={broadcaster.name} className="rounded-lg border p-4">
                         <h3 className="font-semibold">{broadcaster.name}</h3>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
                           {broadcaster.countries.join(', ')}
@@ -327,7 +401,7 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
                           href={broadcaster.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline text-sm dark:text-blue-400"
+                          className="text-sm text-blue-600 hover:underline dark:text-blue-400"
                         >
                           Visit website
                         </a>
@@ -343,36 +417,36 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
 
       {Object.keys(competition.documents).length > 0 && (
         <Card>
-        <CardHeader>
+          <CardHeader>
             <Collapsible>
-                <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between">
                 <CardTitle>Documents</CardTitle>
                 <CollapsibleTrigger asChild>
-                    <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm">
                     <ChevronDown className="h-4 w-4" />
-                    </Button>
+                  </Button>
                 </CollapsibleTrigger>
-                </div>
-                <CollapsibleContent>
+              </div>
+              <CollapsibleContent>
                 <CardContent className="pt-6">
-                    <div className="space-y-2">
+                  <div className="space-y-2">
                     {Object.entries(competition.documents).map(([name, url]) => (
-                        <div key={name}>
+                      <div key={name}>
                         <a
-                            href={url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline dark:text-blue-400"
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline dark:text-blue-400"
                         >
-                            {name}
+                          {name}
                         </a>
-                        </div>
+                      </div>
                     ))}
-                    </div>
+                  </div>
                 </CardContent>
-                </CollapsibleContent>
+              </CollapsibleContent>
             </Collapsible>
-            </CardHeader>
+          </CardHeader>
         </Card>
       )}
     </div>
