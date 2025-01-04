@@ -18,7 +18,8 @@ export async function GET() {
         'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
       },
     })
-  } catch {
+  } catch (error) {
+    console.error(error)
     return NextResponse.json(
       { error: 'Failed to fetch competitions' },
       { status: 500 }
