@@ -170,7 +170,7 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
                         <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex justify-center w-full max-w-3xl mb-2" style={{alignItems: "last baseline"}}>
                           {/* Silver - 2nd Place */}
                           <div className="flex flex-col items-center mx-4 text-center">
-                            <div className="h-32 w-24 bg-gray-200 dark:bg-gray-700 rounded-t-lg flex items-end justify-center">
+                            <div className="h-32 w-24 bg-gray-200 dark:bg-gray-700 rounded-t-lg flex items-end justify-center relative">
                               <Image 
                                 src={`https://data.fis-ski.com/general/load-competitor-picture/${race.results[1].athlete_id}.html`}
                                 alt={race.results[1].name}
@@ -178,17 +178,20 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
                                 width={80}
                                 height={80}
                               />
+                              <span 
+                                className={`flag-${race.results[1].nation.toUpperCase()} absolute bottom-3 right-1 w-[28px] h-[21px] rounded shadow`}
+                                />
                             </div>
                             <div className="mt-2">
                               <div className="font-semibold text-sm dark:text-gray-100">{race.results[1].name}</div>
                               <div className="text-xs text-gray-600 dark:text-gray-400">{race.results[1].nation}</div>
-                              <div className="text-xs font-medium dark:text-gray-300">{race.results[1].total}</div>
+                              <div className="text-xs font-medium dark:text-gray-300">{race.results[1].diff}</div>
                             </div>
                           </div>
 
                           {/* Gold - 1st Place */}
                           <div className="flex flex-col items-center mx-4 text-center -mb-4">
-                            <div className="h-40 w-24 bg-yellow-200 dark:bg-yellow-700 rounded-t-lg flex items-end justify-center">
+                            <div className="h-40 w-24 bg-yellow-200 dark:bg-yellow-700 rounded-t-lg flex items-end justify-center relative">
                               <Image 
                                 src={`https://data.fis-ski.com/general/load-competitor-picture/${race.results[0].athlete_id}.html`}
                                 alt={race.results[0].name}
@@ -196,17 +199,20 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
                                 width={80}
                                 height={80}
                               />
+                              <span 
+                                className={`flag-${race.results[0].nation.toUpperCase()} absolute bottom-3 right-1 w-[28px] h-[21px] rounded shadow`}
+                              />
                             </div>
                             <div className="mt-2">
                               <div className="font-semibold text-sm dark:text-gray-100">{race.results[0].name}</div>
                               <div className="text-xs text-gray-600 dark:text-gray-400">{race.results[0].nation}</div>
-                              <div className="text-xs font-medium dark:text-gray-300">{race.results[0].total}</div>
+                              <div className="text-xs font-medium dark:text-gray-300">{race.results[0].diff}</div>
                             </div>
                           </div>
 
                           {/* Bronze - 3rd Place */}
                           <div className="flex flex-col items-center mx-4 text-center -mb-8">
-                            <div className="h-24 w-24 bg-orange-200 dark:bg-orange-800 rounded-t-lg flex items-end justify-center">
+                            <div className="h-24 w-24 bg-orange-200 dark:bg-orange-800 rounded-t-lg flex items-end justify-center relative">
                               <Image 
                                 src={`https://data.fis-ski.com/general/load-competitor-picture/${race.results[2].athlete_id}.html`}
                                 alt={race.results[2].name}
@@ -214,15 +220,19 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
                                 width={80}
                                 height={80}
                               />
+                              <span 
+                                className={`flag-${race.results[2].nation.toUpperCase()} absolute bottom-3 right-1 w-[28px] h-[21px] rounded shadow`}
+                              />
                             </div>
                             <div className="mt-2">
                               <div className="font-semibold text-sm dark:text-gray-100">{race.results[2].name}</div>
                               <div className="text-xs text-gray-600 dark:text-gray-400">{race.results[2].nation}</div>
-                              <div className="text-xs font-medium dark:text-gray-300">{race.results[2].total}</div>
+                              <div className="text-xs font-medium dark:text-gray-300">{race.results[2].diff}</div>
                             </div>
                           </div>
                         </div>
                       </div>
+
 
                       {/* Full Results Table */}
                       <Collapsible>
@@ -265,7 +275,12 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
                                         <span className="dark:text-gray-100">{result.name}</span>
                                       </div>
                                     </TableCell>
-                                    <TableCell className="dark:text-gray-300">{result.nation}</TableCell>
+                                    <TableCell className="dark:text-gray-300">
+                                        <div className="flex items-center gap-2">
+                                            <span className={`w-[24px] h-[18px] flag-${result.nation.toUpperCase()}`}></span>
+                                            {result.nation}
+                                        </div>
+                                    </TableCell>
                                     <TableCell className="dark:text-gray-300">{result.run1}</TableCell>
                                     <TableCell className="dark:text-gray-300">{result.run2}</TableCell>
                                     <TableCell className="font-medium dark:text-gray-100">{result.total}</TableCell>

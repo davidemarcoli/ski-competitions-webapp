@@ -14,6 +14,7 @@ import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
+import { ModeToggle } from '@/components/mode-toggle'
 
 interface Competition {
   event_id: string
@@ -69,9 +70,11 @@ export default function CompetitionsTable() {
         const dateA = getCompDate(a.date)
         const dateB = getCompDate(b.date)
         
-        // First sort by live status
-        if (a.is_live && !b.is_live) return -1
-        if (!a.is_live && b.is_live) return 1
+        if (!showPastEvents) {
+          // First sort by live status
+          if (a.is_live && !b.is_live) return -1
+          if (!a.is_live && b.is_live) return 1
+        }
         
         // Then sort by date
         return dateA.getTime() - dateB.getTime()
@@ -88,6 +91,9 @@ export default function CompetitionsTable() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Ski Competitions</h1>
         <div className="flex items-center space-x-2">
+          <div className='mr-4'>
+            <ModeToggle />
+          </div>
           <Switch 
             id="show-past" 
             checked={showPastEvents}
@@ -128,7 +134,12 @@ export default function CompetitionsTable() {
                   </Link>
                 </TableCell>
                 <TableCell>{competition.location}</TableCell>
-                <TableCell>{competition.country}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2">
+                    <span className={`w-[24px] h-[18px] flag-${competition.country.toUpperCase()}`}></span>
+                    {competition.country}
+                  </div>
+                </TableCell>
                 <TableCell>{competition.discipline.join(', ')}</TableCell>
                 <TableCell>{competition.category}</TableCell>
                 <TableCell>{competition.gender}</TableCell>
