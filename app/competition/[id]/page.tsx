@@ -123,7 +123,7 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
               {competition.competition.cancelled ? (
                 <Badge variant="destructive">Cancelled</Badge>
               ) : (
-                <Badge variant="success">Active</Badge>
+                <Badge variant="secondary">Active</Badge>
               )}
             </div>
           </div>
@@ -175,6 +175,8 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
                                 src={`https://data.fis-ski.com/general/load-competitor-picture/${race.results[1].athlete_id}.html`}
                                 alt={race.results[1].name}
                                 className="w-20 h-20 object-cover rounded-full mb-2"
+                                width={80}
+                                height={80}
                               />
                             </div>
                             <div className="mt-2">
@@ -191,6 +193,8 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
                                 src={`https://data.fis-ski.com/general/load-competitor-picture/${race.results[0].athlete_id}.html`}
                                 alt={race.results[0].name}
                                 className="w-20 h-20 object-cover rounded-full mb-2"
+                                width={80}
+                                height={80}
                               />
                             </div>
                             <div className="mt-2">
@@ -207,6 +211,8 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
                                 src={`https://data.fis-ski.com/general/load-competitor-picture/${race.results[2].athlete_id}.html`}
                                 alt={race.results[2].name}
                                 className="w-20 h-20 object-cover rounded-full mb-2"
+                                width={80}
+                                height={80}
                               />
                             </div>
                             <div className="mt-2">
@@ -253,6 +259,8 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
                                           src={`https://data.fis-ski.com/general/load-competitor-picture/${result.athlete_id}.html`}
                                           alt={result.name}
                                           className="w-8 h-8 rounded-full object-cover"
+                                          width={32}
+                                          height={32}
                                         />
                                         <span className="dark:text-gray-100">{result.name}</span>
                                       </div>

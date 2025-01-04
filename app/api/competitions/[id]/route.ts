@@ -6,10 +6,10 @@ export const revalidate = 300 // Revalidate every 5 minutes for individual compe
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const response = await fetch(`${API_BASE_URL}/competitions/${params.id}`, {
+    const response = await fetch(`${API_BASE_URL}/competitions/${(await params).id}`, {
       next: {
         revalidate: 300 // Cache for 5 minutes
       }

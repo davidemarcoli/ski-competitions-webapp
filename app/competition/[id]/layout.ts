@@ -13,9 +13,9 @@ async function getCompetition(id: string) {
 }
 
 export async function generateMetadata(
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ): Promise<Metadata> {
-  const competition = await getCompetition(params.id)
+  const competition = await getCompetition((await params).id)
   
   if (!competition) {
     return {
