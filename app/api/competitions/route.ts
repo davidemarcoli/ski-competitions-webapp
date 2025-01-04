@@ -19,9 +19,8 @@ export async function GET() {
       },
     })
   } catch (error) {
-    console.error(error)
     return NextResponse.json(
-      { error: 'Failed to fetch competitions' },
+      { error: 'Failed to fetch competitions with error: ' + error },
       { status: 500 }
     )
   }
