@@ -39,7 +39,7 @@ export default function CompetitionsTable() {
         const response = await fetch('/api/competitions')
         const data = await response.json()
         setCompetitions(data)
-      } catch (err) {
+      } catch {
         setError('Failed to fetch competitions')
       } finally {
         setLoading(false)

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
 
 async function getCompetition(id: string) {
   try {
@@ -8,7 +7,7 @@ async function getCompetition(id: string) {
     })
     if (!res.ok) return null
     return res.json()
-  } catch (error) {
+  } catch{
     return null
   }
 }

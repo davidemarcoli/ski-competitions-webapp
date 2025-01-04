@@ -5,6 +5,7 @@ import { use } from 'react'
 import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ChevronDown } from 'lucide-react'
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
@@ -76,7 +77,7 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
         const response = await fetch(`/api/competitions/${resolvedParams.id}`)
         const data = await response.json()
         setCompetition(data)
-      } catch (err) {
+      } catch {
         setError('Failed to fetch competition details')
       } finally {
         setLoading(false)
@@ -170,7 +171,7 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
                           {/* Silver - 2nd Place */}
                           <div className="flex flex-col items-center mx-4 text-center">
                             <div className="h-32 w-24 bg-gray-200 dark:bg-gray-700 rounded-t-lg flex items-end justify-center">
-                              <img 
+                              <Image 
                                 src={`https://data.fis-ski.com/general/load-competitor-picture/${race.results[1].athlete_id}.html`}
                                 alt={race.results[1].name}
                                 className="w-20 h-20 object-cover rounded-full mb-2"
@@ -186,7 +187,7 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
                           {/* Gold - 1st Place */}
                           <div className="flex flex-col items-center mx-4 text-center -mb-4">
                             <div className="h-40 w-24 bg-yellow-200 dark:bg-yellow-700 rounded-t-lg flex items-end justify-center">
-                              <img 
+                              <Image 
                                 src={`https://data.fis-ski.com/general/load-competitor-picture/${race.results[0].athlete_id}.html`}
                                 alt={race.results[0].name}
                                 className="w-20 h-20 object-cover rounded-full mb-2"
@@ -202,7 +203,7 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
                           {/* Bronze - 3rd Place */}
                           <div className="flex flex-col items-center mx-4 text-center -mb-8">
                             <div className="h-24 w-24 bg-orange-200 dark:bg-orange-800 rounded-t-lg flex items-end justify-center">
-                              <img 
+                              <Image 
                                 src={`https://data.fis-ski.com/general/load-competitor-picture/${race.results[2].athlete_id}.html`}
                                 alt={race.results[2].name}
                                 className="w-20 h-20 object-cover rounded-full mb-2"
@@ -248,7 +249,7 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
                                     <TableCell>{result.rank}</TableCell>
                                     <TableCell>
                                       <div className="flex items-center gap-2">
-                                        <img 
+                                        <Image 
                                           src={`https://data.fis-ski.com/general/load-competitor-picture/${result.athlete_id}.html`}
                                           alt={result.name}
                                           className="w-8 h-8 rounded-full object-cover"
