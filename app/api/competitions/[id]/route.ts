@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const API_BASE_URL = 'http://localhost:8000/api/v1'
+const API_BASE_URL = 'https://ski-data-api.homelab.davidemarcoli.dev/api/v1'
 
 export const revalidate = 300 // Revalidate every 5 minutes for individual competitions
 
