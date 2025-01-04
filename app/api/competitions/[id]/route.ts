@@ -27,7 +27,8 @@ export async function GET(
         'Cache-Control': `public, s-maxage=${cacheDuration}, stale-while-revalidate=${cacheDuration * 2}`,
       },
     })
-  } catch {
+  } catch (error) {
+    console.error(error)
     return NextResponse.json(
       { error: 'Failed to fetch competition details' },
       { status: 500 }

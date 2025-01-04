@@ -2,7 +2,16 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["data.fis-ski.com"],
+    // data.fis-ski.com
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'data.fis-ski.com',
+        port: '',
+        pathname: '/general/load-competitor-picture/**',
+        search: '',
+      },
+    ],
   },
 };
 
