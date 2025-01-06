@@ -83,6 +83,10 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
     const fetchCompetition = async () => {
       try {
         const response = await fetch(`/api/competitions/${resolvedParams.id}`)
+        if (response.status !== 200) {
+          console.error('Error details:', await response.json())
+          throw new Error('Failed to fetch competition details')
+        }
         const data = await response.json()
         setCompetition(data)
       } catch {
