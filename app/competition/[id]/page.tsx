@@ -83,9 +83,12 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
     const fetchCompetition = async () => {
       try {
         const response = await fetch(`/api/competitions/${resolvedParams.id}`)
+        if (response.status === 404) {
+          setCompetition(null)
+          return
+        }
         if (response.status !== 200) {
-          console.error('Error details:', await response.json())
-          throw new Error('Failed to fetch competition details')
+          throw new Error()
         }
         const data = await response.json()
         setCompetition(data)
@@ -288,9 +291,15 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
                                     <TableHead>Rank</TableHead>
                                     <TableHead>Athlete</TableHead>
                                     <TableHead>Nation</TableHead>
-                                    <TableHead>Run 1</TableHead>
-                                    <TableHead>Run 2</TableHead>
-                                    <TableHead>Total</TableHead>
+                                    {race.discipline === 'SL' || race.discipline === 'GS' ? (
+                                      <>
+                                        <TableHead>Run 1</TableHead>
+                                        <TableHead>Run 2</TableHead>
+                                        <TableHead>Total</TableHead>
+                                      </>
+                                    ) : (
+                                      <TableHead>Time</TableHead>
+                                    )}
                                     <TableHead>Diff</TableHead>
                                     <TableHead>Points</TableHead>
                                   </TableRow>
@@ -319,12 +328,16 @@ export default function CompetitionDetail({ params }: { params: Promise<{ id: st
                                           {result.nation}
                                         </div>
                                       </TableCell>
-                                      <TableCell className="dark:text-gray-300">
-                                        {result.run1}
-                                      </TableCell>
-                                      <TableCell className="dark:text-gray-300">
-                                        {result.run2}
-                                      </TableCell>
+                                      {race.discipline === 'SL' || race.discipline === 'GS' && (
+                                        <>
+                                          <TableCell className="dark:text-gray-300">
+                                            {result.run1}
+                                          </TableCell>
+                                          <TableCell className="dark:text-gray-300">
+                                            {result.run2}
+                                          </TableCell>
+                                        </>
+                                      )}
                                       <TableCell className="font-medium dark:text-gray-100">
                                         {result.total}
                                       </TableCell>

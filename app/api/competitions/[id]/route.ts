@@ -1,16 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const API_BASE_URL = 'https://ski-data-api.homelab.davidemarcoli.dev/api/v1'
+const API_BASE_URL = process.env.API_BASE_URL || 'https://ski-data-api.homelab.davidemarcoli.dev/api/v1'
 
-export const revalidate = 300 // Revalidate every 5 minutes for individual competitions
+export const revalidate = 60 // Revalidate every minute for individual competitions
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const response = await fetch(`${API_BASE_URL}/competitions/${(await params).id}`, {
       next: {
-        revalidate: 300, // Cache for 5 minutes
+        revalidate: 60, // Cache for 1 minute
       },
     })
+
+    if (response.status === 404) {
+      return NextResponse.json('Competition not found', { status: 404 })
+    }
+
+    if (!response.ok) {
+      console.error(await response.text())
+      return NextResponse.json('Failed to fetch competition details', { status: 500 })
+    }
+
     const data = await response.json()
 
     // Check if the competition is currently live
