@@ -51,7 +51,7 @@ export default function CompetitionsTable() {
   }, [])
 
   const sortAndFilterCompetitions = (comps: Competition[]) => {
-    const currentDate = new Date()
+    const currentDate = new Date().setHours(0, 0, 0, 0)
 
     // Parse the competition date and get the end date if it's a range
     const getCompDate = (dateStr: string) => {
