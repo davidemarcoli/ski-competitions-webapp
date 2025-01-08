@@ -97,13 +97,30 @@ export default function CompetitionsTable() {
   const sortedCompetitions = sortAndFilterCompetitions(competitions)
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="mx-2 py-8 sm:container sm:mx-auto">
+      {/* Desktop Layout */}
+      <div className="mb-6 hidden items-center justify-between sm:flex">
         <h1 className="text-3xl font-bold">Ski Competitions</h1>
         <div className="flex items-center space-x-2">
           <div className="mr-4">
             <ModeToggle />
           </div>
+          <Switch id="show-past" checked={showPastEvents} onCheckedChange={setShowPastEvents} />
+          <Label htmlFor="show-past">Show Past Events</Label>
+        </div>
+      </div>
+
+      {/* Mobile Layout */}
+      <div className="mb-6 block items-center justify-between sm:hidden">
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold">Ski Competitions</h1>
+          <div className="flex items-center space-x-2">
+            <div className="mr-4">
+              <ModeToggle />
+            </div>
+          </div>
+        </div>
+        <div className="mt-4 flex items-center space-x-2">
           <Switch id="show-past" checked={showPastEvents} onCheckedChange={setShowPastEvents} />
           <Label htmlFor="show-past">Show Past Events</Label>
         </div>
