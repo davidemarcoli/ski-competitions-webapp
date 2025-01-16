@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
+import { LONG_DESCRIPTION, SHORT_DESCRIPTION, TITLE } from '@/lib/constants'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -24,28 +25,27 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: 'FIS Alpine Ski World Cup Live',
-    template: '%s | FIS Alpine Ski World Cup Live',
+    default: TITLE,
+    template: '%s | ' + TITLE,
   },
-  description:
-    'Live results and standings of FIS Alpine Ski World Cup events in a simple and easy-to-use interface.',
-  keywords: ['FIS', 'Alpine Skiing', 'World Cup', 'Ski Racing', 'Live Results', 'Winter Sports'],
+  description: LONG_DESCRIPTION,
+  keywords: ['Alpine Skiing', 'World Cup', 'Ski Racing', 'Live Results', 'Winter Sports'],
   authors: [{ name: 'Davide Marcoli' }],
   category: 'Sports',
-  manifest: '/manifest.json',
+  manifest: '/manifest.webmanifest',
   metadataBase: new URL('https://ski-data.davidemarcoli.dev'),
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://ski-data.davidemarcoli.dev',
-    title: 'FIS Alpine Ski World Cup Live',
-    description: 'Live results and standings of FIS Alpine Ski World Cup events.',
-    siteName: 'FIS Alpine Ski World Cup Live',
+    title: TITLE,
+    description: SHORT_DESCRIPTION,
+    siteName: TITLE,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'FIS Alpine Ski World Cup Live',
-    description: 'Live results and standings of FIS Alpine Ski World Cup events.',
+    title: TITLE,
+    description: SHORT_DESCRIPTION,
   },
   robots: {
     index: true,
@@ -60,8 +60,8 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
+    shortcut: '/icons/icon-128x128.png',
+    apple: '/icons/icon-72x72.png',
   },
   // verification: {
   //   google: 'your-google-site-verification-code', // Add your verification code if you have one
