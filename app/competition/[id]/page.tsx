@@ -1,4 +1,3 @@
-// app/competition/[id]/page.tsx
 'use client'
 
 import { use } from 'react'
@@ -18,62 +17,9 @@ import {
 } from '@/components/ui/table'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Button } from '@/components/ui/button'
+import { CompetitionDetail } from '@/app/models' 
 
-interface Result {
-  athlete_id: string
-  rank: number
-  name: string
-  nation: string
-  run1: string
-  run2: string
-  total: string
-  diff: string
-  fis_points: number
-  cup_points: number
-}
-
-interface Race {
-  race_id: string
-  codex: string
-  date: string
-  discipline: string
-  is_training: boolean
-  gender: string
-  has_live_timing: boolean
-  live_timing_url: string
-  results?: Result[]
-  runs: {
-    number: number
-    time: string
-    status: string
-    info: string
-  }[]
-}
-
-interface Broadcaster {
-  name: string
-  countries: string[]
-  url: string
-  logo_url: string
-}
-
-interface CompetitionDetail {
-  competition: {
-    event_id: string
-    date: string
-    location: string
-    country: string
-    discipline: string[]
-    category: string
-    gender: string
-    cancelled: boolean
-  }
-  races: Race[]
-  broadcasters: Broadcaster[]
-  documents: Record<string, string>
-}
-
-export default function CompetitionDetail({ params }: { params: Promise<{ id: string }> }) {
+export default function CompetitionDetails({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params)
   const [competition, setCompetition] = useState<CompetitionDetail | null>(null)
   const [loading, setLoading] = useState(true)

@@ -15,18 +15,8 @@ import { Badge } from '@/components/ui/badge'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { ModeToggle } from '@/components/mode-toggle'
-
-interface Competition {
-  event_id: string
-  date: string
-  location: string
-  country: string
-  discipline: string[]
-  category: string
-  gender: string
-  cancelled: boolean
-  is_live: boolean
-}
+import { buttonVariants } from '@/components/ui/button'
+import { Competition } from './models'
 
 export default function CompetitionsTable() {
   const [competitions, setCompetitions] = useState<Competition[]>([])
@@ -103,6 +93,11 @@ export default function CompetitionsTable() {
         <h1 className="text-3xl font-bold">Ski Competitions</h1>
         <div className="flex items-center space-x-2">
           <div className="mr-4">
+            <Link className={buttonVariants({ variant: 'outline' })} href="races/upcoming/">
+              Upcoming Races
+            </Link>
+          </div>
+          <div className="mr-4">
             <ModeToggle />
           </div>
           <Switch id="show-past" checked={showPastEvents} onCheckedChange={setShowPastEvents} />
@@ -119,6 +114,11 @@ export default function CompetitionsTable() {
               <ModeToggle />
             </div>
           </div>
+        </div>
+        <div>
+          <Link className={buttonVariants({ variant: 'outline' }) + ' mt-4'} href="races/upcoming/">
+            Upcoming Races
+          </Link>
         </div>
         <div className="mt-4 flex items-center space-x-2">
           <Switch id="show-past" checked={showPastEvents} onCheckedChange={setShowPastEvents} />
