@@ -33,7 +33,7 @@ export interface Run {
 export interface ExtendedRun extends Run {
   date: string
   id: string
-  race: Race
+  race: ExtendedRace
   is_today: boolean
 }
 
@@ -48,6 +48,10 @@ export interface Race {
   live_timing_url: string
   results?: Result[]
   runs: Run[]
+}
+
+export interface ExtendedRace extends Race {
+    comp_id: string
 }
 
 export interface Broadcaster {

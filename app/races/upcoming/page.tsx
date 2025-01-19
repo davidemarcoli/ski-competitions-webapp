@@ -32,8 +32,8 @@ export default function UpcomingRacesList() {
         const comps = (await response.json()) as Competition[]
 
         const currentDate = new Date()
-        currentDate.setDate(currentDate.getDate() + 2)
-        currentDate.setHours(0, 0, 0, 0)
+        // currentDate.setDate(currentDate.getDate() + 2)
+        // currentDate.setHours(0, 0, 0, 0)
         const currentDateMidnight = new Date()
         currentDateMidnight.setHours(0, 0, 0, 0)
         const currentDatePlusOneWeek = new Date()
@@ -56,7 +56,7 @@ export default function UpcomingRacesList() {
 
         // Process the runs
         const runs = details
-          .map((comp) => comp.races)
+          .map((comp) => comp.races.map(race => ({ ...race, comp_id: comp.competition.event_id })))
           .flat(1)
           .map((race) =>
             race.runs.map((run) => ({
@@ -138,6 +138,7 @@ export default function UpcomingRacesList() {
                 <TableRow
                   key={run.id}
                   className={run.is_today ? 'border-l-4 border-l-blue-500' : ''}
+                  onClick={() => router.push(`/competition/${run.race.comp_id}`)}
                 >
                   <TableCell>{new Date(run.date).toLocaleString()}</TableCell>
                   <TableCell>{run.race.discipline}</TableCell>
