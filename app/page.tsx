@@ -91,17 +91,19 @@ export default function CompetitionsTable() {
       {/* Desktop Layout */}
       <div className="mb-6 hidden items-center justify-between sm:flex">
         <h1 className="text-3xl font-bold">Ski Competitions</h1>
-        <div className="flex items-center space-x-2">
-          <div className="mr-4">
+        <div className="flex items-center space-x-4">
+          <div>
             <Link className={buttonVariants({ variant: 'outline' })} href="races/upcoming/">
               Upcoming Races
             </Link>
           </div>
-          <div className="mr-4">
+          <div>
             <ModeToggle />
           </div>
-          <Switch id="show-past" checked={showPastEvents} onCheckedChange={setShowPastEvents} />
-          <Label htmlFor="show-past">Show Past Events</Label>
+          <div className='flex items-center space-x-2'>
+            <Switch id="show-past" checked={showPastEvents} onCheckedChange={setShowPastEvents} />
+            <Label htmlFor="show-past">Show Past Events</Label>
+          </div>
         </div>
       </div>
 

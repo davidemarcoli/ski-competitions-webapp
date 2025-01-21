@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, ChevronDown } from 'lucide-react'
+import { ArrowLeft, ChevronDown, Router } from 'lucide-react'
 import {
   Table,
   TableHeader,
@@ -18,12 +18,15 @@ import {
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Button } from '@/components/ui/button'
 import { CompetitionDetail } from '@/app/models' 
+import { useRouter } from 'next/navigation'
 
 export default function CompetitionDetails({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params)
   const [competition, setCompetition] = useState<CompetitionDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const router = useRouter()
 
   useEffect(() => {
     const fetchCompetition = async () => {
@@ -54,10 +57,10 @@ export default function CompetitionDetails({ params }: { params: Promise<{ id: s
 
   return (
     <div className="container mx-auto py-8">
-      <Link href="/" className="mb-6 flex items-center gap-2 text-blue-600 hover:underline">
+      <Button variant={"link"} onClick={() => router.back()} className="mb-6 flex items-center gap-2 text-blue-600 hover:underline">
         <ArrowLeft size={20} />
-        Back to Competitions
-      </Link>
+        Back
+      </Button>
 
       <Card className="mb-8">
         <CardHeader>

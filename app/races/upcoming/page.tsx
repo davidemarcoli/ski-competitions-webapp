@@ -58,6 +58,7 @@ export default function UpcomingRacesList() {
         const runs = details
           .map((comp) => comp.races.map(race => ({ ...race, comp_id: comp.competition.event_id })))
           .flat(1)
+          .filter((race) => !race.is_training)
           .map((race) =>
             race.runs.map((run) => ({
               ...run,
