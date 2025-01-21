@@ -100,7 +100,7 @@ export default function CompetitionsTable() {
           <div>
             <ModeToggle />
           </div>
-          <div className='flex items-center space-x-2'>
+          <div className="flex items-center space-x-2">
             <Switch id="show-past" checked={showPastEvents} onCheckedChange={setShowPastEvents} />
             <Label htmlFor="show-past">Show Past Events</Label>
           </div>

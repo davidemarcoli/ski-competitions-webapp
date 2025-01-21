@@ -51,7 +51,7 @@ export interface Race {
 }
 
 export interface ExtendedRace extends Race {
-    comp_id: string
+  comp_id: string
 }
 
 export interface Broadcaster {
