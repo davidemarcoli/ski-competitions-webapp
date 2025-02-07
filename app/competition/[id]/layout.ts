@@ -2,12 +2,9 @@ import type { Metadata } from 'next'
 
 async function getCompetition(id: string) {
   try {
-    const res = await fetch(
-      `https://ski-data-api.homelab.davidemarcoli.dev/api/v1/competitions/${id}`,
-      {
-        next: { revalidate: 300 },
-      },
-    )
+    const res = await fetch(`/api/competitions/${id}`, {
+      next: { revalidate: 300 },
+    })
     if (!res.ok) return null
     return res.json()
   } catch {

@@ -17,6 +17,7 @@ import { Label } from '@/components/ui/label'
 import { ModeToggle } from '@/components/mode-toggle'
 import { buttonVariants } from '@/components/ui/button'
 import { Competition } from './models'
+import { ShineBorder } from '@/components/ui/shine-border'
 
 export default function CompetitionsTable() {
   const [competitions, setCompetitions] = useState<Competition[]>([])
@@ -127,6 +128,27 @@ export default function CompetitionsTable() {
           <Label htmlFor="show-past">Show Past Events</Label>
         </div>
       </div>
+
+      <ShineBorder
+        className="relative my-4 flex w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl"
+        color={['#A07CFE', '#FE8FB5', '#FFBE7B']}
+      >
+        <div className="m-8 text-center">
+          <span className="pointer-events-none whitespace-pre-wrap bg-gradient-to-b from-black to-gray-300/80 bg-clip-text text-center text-4xl font-semibold leading-none text-transparent dark:from-white dark:to-slate-900/10 md:text-6xl">
+            World Championships
+          </span>
+          <p className="my-4 text-center text-sm text-black dark:text-gray-200 md:text-lg">
+            The World Championships are now live! Check out the latest results and watch the
+            competition live on our website.
+          </p>
+          <Link
+            href="/competition/55614"
+            className="rounded-md border border-black px-4 py-2 text-black hover:bg-white hover:text-black dark:border-white dark:text-gray-200 dark:hover:bg-muted/50 dark:hover:text-white"
+          >
+            View competition
+          </Link>
+        </div>
+      </ShineBorder>
 
       <div className="rounded-md border">
         <Table>

@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/table'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Button } from '@/components/ui/button'
-import { CompetitionDetail } from '@/app/models' 
+import { CompetitionDetail } from '@/app/models'
 import { useRouter } from 'next/navigation'
 
 export default function CompetitionDetails({ params }: { params: Promise<{ id: string }> }) {
@@ -56,7 +56,11 @@ export default function CompetitionDetails({ params }: { params: Promise<{ id: s
 
   return (
     <div className="container mx-auto py-8">
-      <Button variant={"link"} onClick={() => router.back()} className="mb-6 flex items-center gap-2 text-blue-600 hover:underline">
+      <Button
+        variant={'link'}
+        onClick={() => router.back()}
+        className="mb-6 flex items-center gap-2 text-blue-600 hover:underline"
+      >
         <ArrowLeft size={20} />
         Back
       </Button>
