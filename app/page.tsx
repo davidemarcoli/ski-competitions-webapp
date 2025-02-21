@@ -129,7 +129,7 @@ export default function CompetitionsTable() {
         </div>
       </div>
 
-      <ShineBorder
+      {/* <ShineBorder
         className="relative my-4 flex w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl"
         color={['#A07CFE', '#FE8FB5', '#FFBE7B']}
       >
@@ -148,7 +148,7 @@ export default function CompetitionsTable() {
             View competition
           </Link>
         </div>
-      </ShineBorder>
+      </ShineBorder> */}
 
       <div className="rounded-md border">
         <Table>
