@@ -118,7 +118,7 @@ export default function CompetitionDetails({ params }: { params: Promise<{ id: s
                       <div className="mt-2 space-y-2">
                         {race.runs.map((run) => (
                           <div key={run.number} className="text-sm">
-                            Run {run.number}: {run.time} - {run.status}
+                            Run {run.number}: {run.time} {run.status ? `- ${run.status}` : ''}
                           </div>
                         ))}
                         {race.has_live_timing && (
