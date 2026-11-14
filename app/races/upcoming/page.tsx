@@ -65,9 +65,10 @@ export default function UpcomingRacesList() {
             race.runs.map((run) => ({
               ...run,
               race: race,
-              date: race.date.split('T')[0] + 'T' + run.time,
+              // Run times are in the venue's local time, prefer the timezone-aware start
+              date: run.start ?? race.date.split('T')[0] + 'T' + run.time,
               id: race.codex + run.number,
-              is_today: isDateInSameDay(new Date(race.date), currentDate),
+              is_today: isDateInSameDay(new Date(run.start ?? race.date), currentDate),
             })),
           )
           .flat(1)

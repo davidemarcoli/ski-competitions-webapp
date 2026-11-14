@@ -25,7 +25,8 @@ export interface Result {
 
 export interface Run {
   number: number
-  time: string
+  time: string // In the venue's local time
+  start?: string // Timezone-aware ISO start time
   status: string
   info: string
 }
@@ -40,7 +41,9 @@ export interface ExtendedRun extends Run {
 export interface Race {
   race_id: string
   codex: string
-  date: string
+  date: string // In the venue's local time
+  start?: string // Timezone-aware ISO start time of the first run
+  timezone?: string // Venue timezone, e.g. "Europe/Vienna"
   discipline: string
   is_training: boolean
   gender: string

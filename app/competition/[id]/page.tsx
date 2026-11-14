@@ -113,12 +113,19 @@ export default function CompetitionDetails({ params }: { params: Promise<{ id: s
                         {race.discipline} - {race.gender}
                       </h3>
                       <p className="text-sm text-gray-500">
-                        Date: {new Date(race.date).toLocaleDateString()}
+                        Date: {new Date(race.start ?? race.date).toLocaleDateString()}
                       </p>
                       <div className="mt-2 space-y-2">
                         {race.runs.map((run) => (
                           <div key={run.number} className="text-sm">
-                            Run {run.number}: {run.time} {run.status ? `- ${run.status}` : ''}
+                            Run {run.number}:{' '}
+                            {run.start
+                              ? new Date(run.start).toLocaleTimeString([], {
+                                  hour: '2-digit',
+                                  minute: '2-digit',
+                                })
+                              : run.time}{' '}
+                            {run.status ? `- ${run.status}` : ''}
                           </div>
                         ))}
                         {race.has_live_timing && (
@@ -333,7 +340,7 @@ export default function CompetitionDetails({ params }: { params: Promise<{ id: s
                               {race.discipline} - {race.gender}
                             </h3>
                             <p className="text-sm text-gray-500">
-                              Date: {new Date(race.date).toLocaleDateString()}
+                              Date: {new Date(race.start ?? race.date).toLocaleDateString()}
                             </p>
                           </div>
                         </div>
