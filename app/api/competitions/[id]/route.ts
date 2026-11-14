@@ -25,7 +25,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const data = await response.json()
 
     // Check if the competition is currently live
-    const isLive = data.competition?.status?.is_live || false
+    const isLive = data.competition?.is_live || false
 
     // Set different cache durations based on whether the competition is live
     const cacheDuration = isLive ? 60 : 300 // 1 minute for live events, 5 minutes for others
